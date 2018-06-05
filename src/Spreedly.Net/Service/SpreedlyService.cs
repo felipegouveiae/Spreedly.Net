@@ -68,6 +68,8 @@ namespace Spreedly.Net.Service
             return Gateway.FromXml(result.Contents);
         }
 
+
+
         /// <summary>
         /// Add a gateway. If it already exists return the existing gateway.
         /// </summary>
@@ -346,6 +348,7 @@ namespace Spreedly.Net.Service
                         return new AsyncCallResult<XDocument>(AsyncCallFailureReason.FailedConnection);
                     }
                     var content = task.Result.Content.ReadAsStreamAsync();
+
                     if (content.Wait(250, token) == false)
                     {
                         if (token.CanBeCanceled)
@@ -358,10 +361,12 @@ namespace Spreedly.Net.Service
                     using (var streamReader = new StreamReader(content.Result))
                     {
                         var doc = XDocument.Load(streamReader, LoadOptions.SetLineInfo);
+
                         if (task.Result.IsSuccessStatusCode == false)
                         {
                             return new AsyncCallResult<XDocument>(AsyncCallFailureReason.FailedStatusCode, doc);
                         }
+
                         return new AsyncCallResult<XDocument>(AsyncCallFailureReason.None, doc);
                     }
                 }

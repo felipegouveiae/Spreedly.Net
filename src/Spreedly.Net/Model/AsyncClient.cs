@@ -15,7 +15,7 @@ namespace Spreedly.Net.Model
         #region log4net
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         #endregion
-        
+
         private const string ROOT_URL = "https://core.spreedly.com/v1";
 
         #region Gateways
@@ -24,14 +24,24 @@ namespace Spreedly.Net.Model
         {
             return Client.GetAsync(new Uri(ROOT_URL + "/gateways.xml"), HttpCompletionOption.ResponseContentRead, token);
         }
-        
+
+        //public async Task<HttpResponseMessage> AddGatewayAsync(CancellationToken token, string type, Dictionary<string, string> otherGatewayInfos = null)
+        //{
+        //    var xml = string.Format("<gateway><gateway_type>{0}</gateway_type>{1}</gateway>", type, DicToXml(otherGatewayInfos));
+        //    var request = new HttpRequestMessage(HttpMethod.Post, new Uri(ROOT_URL + "/gateways.xml"));
+        //    var content = new StringContent(xml, null, "application/xml");
+        //    request.Content = content;
+
+        //    return await Client.SendAsync(LogRequest(request), HttpCompletionOption.ResponseContentRead, token);
+        //}
+
         public Task<HttpResponseMessage> AddGateway(CancellationToken token, string type, Dictionary<string, string> otherGatewayInfos = null)
         {
             var xml = string.Format("<gateway><gateway_type>{0}</gateway_type>{1}</gateway>", type, DicToXml(otherGatewayInfos));
             var request = new HttpRequestMessage(HttpMethod.Post, new Uri(ROOT_URL + "/gateways.xml"));
             var content = new StringContent(xml, null, "application/xml");
             request.Content = content;
-            return Client.SendAsync(LogRequest(request),  HttpCompletionOption.ResponseContentRead, token);
+            return Client.SendAsync(LogRequest(request), HttpCompletionOption.ResponseContentRead, token);
         }
 
         public Task<HttpResponseMessage> UpdateGateway(CancellationToken token, string gatewayToken, Dictionary<string, string> otherGatewayInfos = null)
@@ -94,7 +104,7 @@ namespace Spreedly.Net.Model
             // convert to amount in cents
             int amountInCents = Convert.ToInt32(amount * 100);
 
-            var xml = string.Format("<transaction><amount>{0}</amount><currency_code>{1}</currency_code><payment_method_token>{2}</payment_method_token></transaction>", 
+            var xml = string.Format("<transaction><amount>{0}</amount><currency_code>{1}</currency_code><payment_method_token>{2}</payment_method_token></transaction>",
                 amountInCents, currency, paymentMethodToken);
             var request = new HttpRequestMessage(HttpMethod.Post, uri);
             var content = new StringContent(xml, null, "application/xml");
