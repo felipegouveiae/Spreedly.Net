@@ -1,9 +1,8 @@
-﻿using System;
+﻿using Spreedly.Net.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
-using Spreedly.Net.Extensions;
 
 namespace Spreedly.Net.BuiltIns
 {

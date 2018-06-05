@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 using System.Xml;
 
 namespace Spreedly.Net.BuiltIns
@@ -17,7 +14,9 @@ namespace Spreedly.Net.BuiltIns
         public string State { get; set; }
         public string PostalCode { get; set; }
 
-        //http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+        /// <summary>
+        /// Code according to ISO 3166-1 : http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+        /// </summary>
         public string Country { get; set; }
 
         public string Number { get; set; }
@@ -37,7 +36,7 @@ namespace Spreedly.Net.BuiltIns
                 sb.Append(string.Format("<first_name>{0}</first_name>", XmlEscape(this.FirstName)));
             if (!string.IsNullOrEmpty(this.LastName))
                 sb.Append(string.Format("<last_name>{0}</last_name>", XmlEscape(this.LastName)));
-            
+
             if (!string.IsNullOrEmpty(this.Address1))
                 sb.Append(string.Format("<address1>{0}</address1>", XmlEscape(this.Address1)));
 

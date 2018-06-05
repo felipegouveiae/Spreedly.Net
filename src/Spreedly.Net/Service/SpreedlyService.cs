@@ -23,9 +23,26 @@ namespace Spreedly.Net.Service
         #endregion
 
         private readonly SecurityKeys _securityKeys;
-        
-        public SpreedlyService(string applicationId, string masterKey, string gatewayToken, string redactedToken)
-            : this(new SecurityKeys(applicationId, masterKey, gatewayToken, redactedToken))
+
+        /// <summary>
+        /// Creates a new spreadly service.
+        /// </summary>
+        /// <param name="environmentKey">Check:  https://docs.spreedly.com/basics/credentials/#environment-key</param>
+        /// <param name="accessSecret">Check: https://docs.spreedly.com/basics/credentials/#access-secret</param>
+        /// <param name="gatewayToken"></param>
+        /// <param name="redactedToken"></param>
+        public SpreedlyService(string environmentKey, string accessSecret)
+            : this(new SecurityKeys(environmentKey, accessSecret, null, null))
+        {
+        }
+
+        /// <summary>
+        /// Creates a new spreadly service with the gateway token provided
+        /// </summary>
+        /// <param name="environmentKey">Check:  https://docs.spreedly.com/basics/credentials/#environment-key</param>
+        /// <param name="accessSecret">Check: https://docs.spreedly.com/basics/credentials/#access-secret</param>
+        public SpreedlyService(string environmentKey, string accessSecret, string gatewayToken, string redactedToken = null)
+            : this(new SecurityKeys(environmentKey, accessSecret, gatewayToken, redactedToken))
         {
         }
 
@@ -43,7 +60,7 @@ namespace Spreedly.Net.Service
         public IEnumerable<Gateway> Gateways()
         {
             var result = Call((client, token) => client.Gateways(token));
-            if(result.Failed())
+            if (result.Failed())
             {
                 return null;
             }
@@ -57,6 +74,7 @@ namespace Spreedly.Net.Service
         public Gateway AddGateway(string type, Dictionary<string, string> otherGatewayInfos = null)
         {
             var gateway = GetEnabledGateway(type);
+
             if (gateway == null)
             {
                 var result = Call((client, token) => client.AddGateway(token, type, otherGatewayInfos));
@@ -65,8 +83,10 @@ namespace Spreedly.Net.Service
                     log.Error(result.Contents.ToString());
                     return null;
                 }
+
                 gateway = Gateway.FromXml(result.Contents).FirstOrDefault();
-                if(gateway != null)
+
+                if (gateway != null)
                 {
                     _securityKeys.LastGatewayToken = gateway.Token;
                 }
@@ -92,7 +112,7 @@ namespace Spreedly.Net.Service
 
         public Gateway GetEnabledGateway(string type)
         {
-            var gateways = Gateways();
+            var gateways = Gateways() ?? new Gateway[] { };
             return gateways.FirstOrDefault(g => g.Type == type && g.Enabled);
         }
 
@@ -120,11 +140,11 @@ namespace Spreedly.Net.Service
         {
             var wasTest = string.Equals(type, "test", StringComparison.InvariantCultureIgnoreCase);
             var gateway = GetEnabledGateway(type);
-             if (gateway == null)
-             {
-                 return new Transaction(wasTest,
-                     new TransactionErrors("", TransactionErrorType.InvalidGateway));
-             }
+            if (gateway == null)
+            {
+                return new Transaction(wasTest,
+                    new TransactionErrors("", TransactionErrorType.InvalidGateway));
+            }
             var result = Call((client, token) => client.ProcessPayment(token, gateway.Token, paymentMethodToken, amount, currency));
 
             return HandleResult(result, wasTest);
@@ -307,6 +327,7 @@ namespace Spreedly.Net.Service
             using (var client = new AsyncClient())
             {
                 client.Init(_securityKeys.Credentials);
+
                 using (var task = innerCall_(client, token))
                 {
                     try

@@ -16,7 +16,7 @@ namespace Spreedly.Net.Model
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         #endregion
         
-        private const string ROOT_URL = "https://spreedlycore.com/v1";
+        private const string ROOT_URL = "https://core.spreedly.com/v1";
 
         #region Gateways
 
