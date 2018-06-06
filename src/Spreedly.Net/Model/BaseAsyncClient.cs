@@ -18,7 +18,7 @@ namespace Spreedly.Net.Model
         protected BaseAsyncClient()
         {
         }
-        
+
         protected internal void Init(string rootUrl, ICredentials credentials)
         {
             if (_initialized) throw new InvalidOperationException("Already initialized");
@@ -27,6 +27,8 @@ namespace Spreedly.Net.Model
             _handler = new HttpClientHandler { Credentials = credentials };
             Client = new HttpClient(_handler);
         }
+
+        protected HttpClient GetClient() => new HttpClient(_handler);
 
         #region IDisposable Members
 

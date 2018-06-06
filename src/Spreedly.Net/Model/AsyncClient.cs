@@ -20,20 +20,21 @@ namespace Spreedly.Net.Model
 
         #region Gateways
 
+        public AsyncClient()
+        {
+
+        }
+
+        public AsyncClient(NetworkCredential credentials)
+        {
+            Init(credentials);
+        }
+
         public Task<HttpResponseMessage> Gateways(CancellationToken token)
         {
             return Client.GetAsync(new Uri(ROOT_URL + "/gateways.xml"), HttpCompletionOption.ResponseContentRead, token);
         }
 
-        //public async Task<HttpResponseMessage> AddGatewayAsync(CancellationToken token, string type, Dictionary<string, string> otherGatewayInfos = null)
-        //{
-        //    var xml = string.Format("<gateway><gateway_type>{0}</gateway_type>{1}</gateway>", type, DicToXml(otherGatewayInfos));
-        //    var request = new HttpRequestMessage(HttpMethod.Post, new Uri(ROOT_URL + "/gateways.xml"));
-        //    var content = new StringContent(xml, null, "application/xml");
-        //    request.Content = content;
-
-        //    return await Client.SendAsync(LogRequest(request), HttpCompletionOption.ResponseContentRead, token);
-        //}
 
         public Task<HttpResponseMessage> AddGateway(CancellationToken token, string type, Dictionary<string, string> otherGatewayInfos = null)
         {

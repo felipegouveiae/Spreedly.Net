@@ -1,4 +1,6 @@
 ﻿using Spreedly.NetStandard.Model;
+using System.IO;
+using System.Net.Http;
 using System.Xml.Linq;
 
 namespace Spreedly.NetStandard.Extensions
@@ -21,6 +23,5 @@ namespace Spreedly.NetStandard.Extensions
             var token = node.Element(name);
             return token == null ? defaultValue : token.Value;
         }
-
     }
 }

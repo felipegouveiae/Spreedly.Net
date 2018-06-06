@@ -13,10 +13,22 @@ namespace Spreedly.NetStandard.Model
     internal class AsyncClient : BaseAsyncClient, IAsyncClient
     {
         #region log4net
-//        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         #endregion
 
         private const string ROOT_URL = "https://core.spreedly.com/v1";
+
+        public AsyncClient()
+        {
+
+        }
+
+        public AsyncClient(NetworkCredential networkCredential)
+        {
+            Init(networkCredential);
+        }
 
         #region Gateways
 
@@ -25,15 +37,34 @@ namespace Spreedly.NetStandard.Model
             return Client.GetAsync(new Uri(ROOT_URL + "/gateways.xml"), HttpCompletionOption.ResponseContentRead, token);
         }
 
-        //public async Task<HttpResponseMessage> AddGatewayAsync(CancellationToken token, string type, Dictionary<string, string> otherGatewayInfos = null)
-        //{
-        //    var xml = string.Format("<gateway><gateway_type>{0}</gateway_type>{1}</gateway>", type, DicToXml(otherGatewayInfos));
-        //    var request = new HttpRequestMessage(HttpMethod.Post, new Uri(ROOT_URL + "/gateways.xml"));
-        //    var content = new StringContent(xml, null, "application/xml");
-        //    request.Content = content;
+        public async Task<string> GatewaysOptionsAsync()
+        {
+            using (var client = GetClient())
+            using (var request = new HttpRequestMessage(HttpMethod.Get, new Uri(ROOT_URL + "/gateways_options.xml")))
+            {
+                var response = await client.SendAsync(LogRequest(request));
+                var content = await response.Content.ReadAsStringAsync();
 
-        //    return await Client.SendAsync(LogRequest(request), HttpCompletionOption.ResponseContentRead, token);
-        //}
+                return content;
+            }
+        }
+
+        public async Task<string> AddGatewayAsync(CancellationToken token, string type, Dictionary<string, string> otherGatewayInfos = null)
+        {
+            var xml = string.Format("<gateway><gateway_type>{0}</gateway_type>{1}</gateway>", type, DicToXml(otherGatewayInfos));
+
+            using (var request = new HttpRequestMessage(HttpMethod.Post, new Uri(ROOT_URL + "/gateways.xml")))
+            {
+                var requestContent = new StringContent(xml, null, "application/xml");
+
+                request.Content = requestContent;
+
+                var response = await Client.SendAsync(LogRequest(request), HttpCompletionOption.ResponseContentRead, token);
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                return responseContent;
+            }
+        }
 
         public Task<HttpResponseMessage> AddGateway(CancellationToken token, string type, Dictionary<string, string> otherGatewayInfos = null)
         {
@@ -205,23 +236,29 @@ namespace Spreedly.NetStandard.Model
 
         private string DicToXml(Dictionary<string, string> dictionary)
         {
-            if (dictionary == null || dictionary.Any() == false)
+            if (dictionary?.Any() == true)
+            {
                 return string.Empty;
+            }
+
             var sb = new StringBuilder();
+
             foreach (var key in dictionary.Keys)
             {
                 sb.AppendFormat("<{0}>{1}</{0}>", key, dictionary[key]);
             }
+
             return sb.ToString();
         }
 
         private HttpRequestMessage LogRequest(HttpRequestMessage request)
         {
-            //log.DebugFormat("{1} to URL: {0}", request.RequestUri, request.Method);
-            //if (null != request.Content)
-            //{
-            //    log.DebugFormat(request.Content.ReadAsStringAsync().Result.ToString());
-            //}
+            log.DebugFormat("{1} to URL: {0}", request.RequestUri, request.Method);
+
+            if (null != request.Content)
+            {
+                log.DebugFormat(request.Content.ReadAsStringAsync().Result.ToString());
+            }
 
             return request;
         }

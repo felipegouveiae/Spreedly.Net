@@ -9,6 +9,8 @@ namespace Spreedly.NetStandard.Model
     internal interface IAsyncClient
     {
         // gateways
+        Task<string> GatewaysOptionsAsync();
+
         Task<HttpResponseMessage> Gateways(CancellationToken token);
         Task<HttpResponseMessage> AddGateway(CancellationToken token, string type, Dictionary<string, string> otherGatewayInfos);
         Task<HttpResponseMessage> UpdateGateway(CancellationToken token, string gatewayToken, Dictionary<string, string> otherGatewayInfos);

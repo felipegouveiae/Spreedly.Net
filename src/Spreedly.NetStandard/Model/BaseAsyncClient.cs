@@ -26,8 +26,10 @@ namespace Spreedly.NetStandard.Model
             _rootUrl = rootUrl;
             _handler = new HttpClientHandler { Credentials = credentials };
 
-            Client = new HttpClient(_handler);
+            Client = GetClient();
         }
+
+        protected HttpClient GetClient() => new HttpClient(_handler);
 
         #region IDisposable Members
 
