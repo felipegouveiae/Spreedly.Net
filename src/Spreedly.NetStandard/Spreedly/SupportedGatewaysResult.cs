@@ -1,7 +1,5 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Spreedly.NetStandard.Spreedly
 {
@@ -19,6 +17,22 @@ namespace Spreedly.NetStandard.Spreedly
 
         [JsonProperty("auth_modes")]
         public List<AuthenticationModes> AuthenticationModes { get; set; }
+
+        public string[] Characteristics { get; set; }
+
+        [JsonProperty("payment_methods")]
+        public string[] PaymentMethods { get; set; }
+
+        [JsonProperty("gateway_specific_fields")]
+        public string[] SpecifcFields { get; set; }
+
+        [JsonProperty("supported_countries")]
+        public string[] SupportedCountries { get; set; }
+
+        [JsonProperty("supported_cardtypes")]
+        public string[] supportedCardtypes { get; set; }
+
+        public string[] Regions { get; set; }
     }
 
     public class AuthenticationModes
@@ -36,14 +50,6 @@ namespace Spreedly.NetStandard.Spreedly
         public string Name { get; set; }
         public string Label { get; set; }
         public bool Safe { get; set; }
-
-        ///// <summary>
-        ///// JsonConvert creates a key for every property contained in the json object.
-        ///// </summary>
-        //[JsonExtensionData]
-        //private Dictionary<string, JToken> ExtendedData { get; set; }
-
-        //public Dictionary<string, string> Fields => ExtendedData.ToDictionary(x => x.Key, x => x.Value.ToString());
     }
 
     public class SupportedGatewaysResult
@@ -51,12 +57,8 @@ namespace Spreedly.NetStandard.Spreedly
         [JsonProperty("gateways")]
         public List<SupportedGatewayDetails> Gateways { get; set; }
 
-        public static SupportedGatewaysResult FromJson(string json)
-        {
-            var converted = JsonConvert.DeserializeObject<SupportedGatewaysResult>(json);
-
-            return converted;
-        }
+        public static SupportedGatewaysResult FromJson(string json) 
+            => JsonConvert.DeserializeObject<SupportedGatewaysResult>(json);
     }
 
 }
