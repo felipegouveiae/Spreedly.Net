@@ -71,7 +71,7 @@ namespace Spreedly.NetStandard.Service
             using (var client = new AsyncClient(_securityKeys.Credentials))
             {
                 var optionsString = await client.GatewaysOptionsAsync();
-                var items = SupportedGatewaysResult.FromXml(optionsString);
+                var items = SupportedGatewaysResult.FromJson(optionsString);
 
                 return items;
             }

@@ -1,14 +1,19 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2027
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spreedly.Net", "Spreedly.Net\Spreedly.Net.csproj", "{276EE87D-B5F2-4A82-8AAF-5BD4AC7EB0B1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Spreedly.Net", "Test.Spreedly.Net\Test.Spreedly.Net.csproj", "{A608AFEB-801F-4D7F-99F1-3039B9B95874}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "..\..\Spreedly\ConsoleApp\ConsoleApp.csproj", "{35358856-C691-49D9-A566-B34987D25AF9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAppClassic", "..\..\Spreedly\ConsoleAppClassic\ConsoleAppClassic.csproj", "{ADE769BE-B65D-4564-A547-53945BF36171}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spreedly.NetStandard", "Spreedly.NetStandard\Spreedly.NetStandard.csproj", "{F1596560-9D88-47D9-A6C8-F8F5EC15D586}"
+EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = Spreedly.Net.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -22,8 +27,26 @@ Global
 		{A608AFEB-801F-4D7F-99F1-3039B9B95874}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A608AFEB-801F-4D7F-99F1-3039B9B95874}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A608AFEB-801F-4D7F-99F1-3039B9B95874}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35358856-C691-49D9-A566-B34987D25AF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35358856-C691-49D9-A566-B34987D25AF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35358856-C691-49D9-A566-B34987D25AF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35358856-C691-49D9-A566-B34987D25AF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADE769BE-B65D-4564-A547-53945BF36171}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADE769BE-B65D-4564-A547-53945BF36171}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADE769BE-B65D-4564-A547-53945BF36171}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADE769BE-B65D-4564-A547-53945BF36171}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1596560-9D88-47D9-A6C8-F8F5EC15D586}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1596560-9D88-47D9-A6C8-F8F5EC15D586}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1596560-9D88-47D9-A6C8-F8F5EC15D586}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1596560-9D88-47D9-A6C8-F8F5EC15D586}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {279D2F0A-F81E-4E82-8127-B6D581C70E95}
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = Spreedly.Net.vsmdi
 	EndGlobalSection
 EndGlobal

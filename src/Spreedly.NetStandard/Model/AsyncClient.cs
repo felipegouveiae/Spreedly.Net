@@ -40,7 +40,7 @@ namespace Spreedly.NetStandard.Model
         public async Task<string> GatewaysOptionsAsync()
         {
             using (var client = GetClient())
-            using (var request = new HttpRequestMessage(HttpMethod.Get, new Uri(ROOT_URL + "/gateways_options.xml")))
+            using (var request = new HttpRequestMessage(HttpMethod.Get, new Uri(ROOT_URL + "/gateways_options.json")))
             {
                 var response = await client.SendAsync(LogRequest(request));
                 var content = await response.Content.ReadAsStringAsync();

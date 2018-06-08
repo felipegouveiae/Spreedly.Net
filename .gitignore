@@ -6,3 +6,4 @@ Spreedly.Net.suo
 # mstest test results
 TestResults
 /src/.vs/Spreedly.Net/v15/Server/sqlite3
+/src/packages

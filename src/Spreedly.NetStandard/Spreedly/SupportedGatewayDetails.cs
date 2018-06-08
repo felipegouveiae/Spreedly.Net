@@ -1,56 +1,62 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Xml;
-using System.Xml.Serialization;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Spreedly.NetStandard.Spreedly
 {
-    [XmlRoot("gateways")]
-    public class SupportedGatewaysResult
-    {
-        [XmlElement("gateway")]
-        public List<SupportedGatewayDetails> Gateways { get; set; }
-
-        public static SupportedGatewaysResult FromXml(string xml)
-        {
-            var serializer = new XmlSerializer(typeof(SupportedGatewaysResult));
-
-            using (var reader = new StringReader(xml))
-            {
-                var deserialized = serializer.Deserialize(reader);
-                var result = (SupportedGatewaysResult)deserialized;
-
-                return result;
-            }
-        }
-    }
-
     public class SupportedGatewayDetails
     {
-        [XmlElement("homepage")]
         public string Homepage { get; set; }
 
-        [XmlElement("company_name")]
-        public string CompanyNAme { get; set; }
+        [JsonProperty("company_name")]
+        public string CompanyName { get; set; }
 
-        [XmlElement("gateway_type")]
+        [JsonProperty("gateway_type")]
         public string Type { get; set; }
 
-        [XmlElement("name")]
         public string Name { get; set; }
 
-        [XmlElement("auth_mode")]
-        //[XmlArrayItem("skater", Type = typeof(Skater))]
-        //[XmlArrayItem("goalie", Type = typeof(Goalie))]
+        [JsonProperty("auth_modes")]
         public List<AuthenticationModes> AuthenticationModes { get; set; }
     }
 
     public class AuthenticationModes
     {
-        [XmlElement("name")]
         public string Name { get; set; }
 
-        [XmlElement("auth_mode_type")]
+        [JsonProperty("auth_mode_type")]
         public string Type { get; set; }
+
+        public List<Credencial> Credentials { get; set; }
     }
+
+    public class Credencial
+    {
+        public string Name { get; set; }
+        public string Label { get; set; }
+        public bool Safe { get; set; }
+
+        ///// <summary>
+        ///// JsonConvert creates a key for every property contained in the json object.
+        ///// </summary>
+        //[JsonExtensionData]
+        //private Dictionary<string, JToken> ExtendedData { get; set; }
+
+        //public Dictionary<string, string> Fields => ExtendedData.ToDictionary(x => x.Key, x => x.Value.ToString());
+    }
+
+    public class SupportedGatewaysResult
+    {
+        [JsonProperty("gateways")]
+        public List<SupportedGatewayDetails> Gateways { get; set; }
+
+        public static SupportedGatewaysResult FromJson(string json)
+        {
+            var converted = JsonConvert.DeserializeObject<SupportedGatewaysResult>(json);
+
+            return converted;
+        }
+    }
+
 }
